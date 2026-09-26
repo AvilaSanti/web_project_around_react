@@ -1,4 +1,5 @@
-import './App.css'
+import logo from './images/logo.svg';
+import avatar from './images/avatar.jpg'
 
 function App() {
   return (
@@ -7,7 +8,7 @@ function App() {
         <img
           alt="Logotipo Around The U.S."
           className="logo header__logo"
-          src="./images/logo.svg"
+          src={logo}
         />
       </header>
       <main className="content">
@@ -15,7 +16,7 @@ function App() {
           <div className="profile__image-container">
             <img
               className="profile__image"
-              src="./images/avatar.jpg"
+              src={avatar}
               alt="Avatar"
             />
           </div>
