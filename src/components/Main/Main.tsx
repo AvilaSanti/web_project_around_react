@@ -1,6 +1,13 @@
-import avatar from '../images/avatar.jpg';
+import avatar from '../../images/avatar.jpg';
+import { useState } from 'react';
+import React from 'react';
+import Popup from './Popup/Popup';
 
-function Main() {
+export default function Main(): React.JSX.Element  {
+  const [popup, setPopup] = useState<{ title: string; children: React.ReactNode } | null>(null);
+  function handleClosePopup() {
+    setPopup(null);
+}
   return (
     <main className="content">
         <section className="profile page__section">
@@ -50,8 +57,15 @@ function Main() {
               </li>
           </ul>
         </section>
+         {popup && (
+        <Popup 
+          onClose={handleClosePopup} 
+          title={popup.title}
+          isOpen={popup !== null}
+        >
+          {popup.children}
+        </Popup>
+      )}
       </main>
   );
 };
-
-export default Main;
