@@ -85,7 +85,7 @@ function handleOpenPopup(popup: PopupConfig): void {
         <section className="cards page__section">
           <ul className="cards__list">
                {cards.map((card) => (
-                 <Card key={card._id} card={card} />
+                 <Card key={card._id} card={card} handleOpenPopup={handleOpenPopup} />
                  ))}
           </ul>
         </section>

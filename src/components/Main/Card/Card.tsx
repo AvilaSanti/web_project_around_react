@@ -1,11 +1,18 @@
-import type { CardData } from '../../../types/types.ts';
+import type { CardData, PopupConfig } from '../../../types/types.ts';
+import ImagePopup from '../Popup/ImagePopup/ImagePopup.tsx';
 
 type CardProps = {
   card: CardData;
+  handleOpenPopup: (popup: PopupConfig) => void;
 };
 
 export default function Card(props: CardProps): React.JSX.Element {
-    const { name, link } = props.card;
+    const { name, link, } = props.card;
+    const { handleOpenPopup } = props;
+    const imageComponent: PopupConfig = {
+      title: '',
+      children: <ImagePopup card={props.card} />,
+};
 
   return ( 
     <li className="card">
@@ -13,6 +20,7 @@ export default function Card(props: CardProps): React.JSX.Element {
                   className="card__image"
                   src={link}
                   alt={name}
+                  onClick={() => handleOpenPopup(imageComponent)}
                 />
                 <button
                   aria-label="Eliminar tarjeta"
