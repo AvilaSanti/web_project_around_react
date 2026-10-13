@@ -2,16 +2,41 @@ import avatar from '../../images/avatar.jpg';
 import { useState } from 'react';
 import React from 'react';
 import Popup from './Popup/Popup';
+import type { PopupConfig } from '../../types/types.ts';
+import NewCard from './Popup/NewCard/NewCard.tsx';
+import EditProfile from './Popup/EditProfile/EditProfile.tsx';
+import EditAvatar from './Popup/EditAvatar/EditAvatar.tsx';
 
 export default function Main(): React.JSX.Element  {
-  const [popup, setPopup] = useState<{ title: string; children: React.ReactNode } | null>(null);
-  function handleClosePopup() {
+  const [popup, setPopup] = useState<PopupConfig | null>(null);
+  const newCardPopup: PopupConfig = {
+    title: 'Nuevo lugar',
+    children: <NewCard />,
+  };
+
+  const editProfilePopup: PopupConfig = {
+    title: 'Editar perfil',
+    children: <EditProfile />,
+  };
+
+  const editAvatarPopup: PopupConfig = {
+    title: 'Editar avatar',
+    children: <EditAvatar />,
+  };
+
+function handleOpenPopup(popup: PopupConfig): void {
+    setPopup(popup);
+  }
+
+  function handleClosePopup(): void {
     setPopup(null);
 }
+
   return (
     <main className="content">
         <section className="profile page__section">
-          <div className="profile__image-container">
+          <div className="profile__image-container"
+              onClick={() => handleOpenPopup(editAvatarPopup)}>
             <img
               className="profile__image"
               src={avatar}
@@ -24,6 +49,7 @@ export default function Main(): React.JSX.Element  {
               aria-label="Editar perfil"
               className="profile__edit-button"
               type="button"
+              onClick={() =>  handleOpenPopup(editProfilePopup)}
             ></button>
             <p className="profile__description">Explorador</p>
           </div>
@@ -31,6 +57,7 @@ export default function Main(): React.JSX.Element  {
             aria-label="Agregar tarjeta"
             className="profile__add-button"
             type="button"
+            onClick={() => handleOpenPopup(newCardPopup)}
           ></button>
         </section>
         <section className="cards page__section">
