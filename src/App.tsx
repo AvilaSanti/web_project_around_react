@@ -27,12 +27,32 @@ function App() {
   }, []);
 
    function handleOpenPopup(popup: PopupConfig): void {
-       setPopup(popup);
-     }
+      setPopup(popup);
+    }
 
-   function handleClosePopup(): void {
-    setPopup(null);
-}
+  function handleClosePopup(): void {
+   setPopup(null);
+  }
+
+  const handleCardLike = async (card: CardData) => {
+   const isLiked = card.isLiked;
+   try {
+     const newCard = await api.changeLikeStatus(card._id, isLiked);
+     setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+   } catch (error) {
+     console.error(error);
+  }
+};
+
+ const handleCardDelete = async (card: CardData) => {
+  try {
+    await api.deleteCard(card._id);
+    setCards((state) => state.filter((c) => c._id !== card._id));
+    handleClosePopup();
+  } catch (error) {
+    console.error(error);
+  }
+};
   
   return (
   <CurrentUserContext.Provider value={{ currentUser, /* pasaremos funciones aquí después */ }}>
@@ -43,6 +63,8 @@ function App() {
      handleOpenPopup={handleOpenPopup}
      handleClosePopup={handleClosePopup}
      popup={popup}
+     handleCardLike={handleCardLike}
+     handleCardDelete={handleCardDelete}
      />
      <Footer />
    </div>

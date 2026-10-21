@@ -13,10 +13,12 @@ type MainProps = {
    handleOpenPopup: (popup: PopupConfig) => void;
    handleClosePopup: () => void;
    cards: CardData[];
+   handleCardLike: (card: CardData) => void;
+   handleCardDelete: (card: CardData) => void;
 };
 
 export default function Main(props: MainProps): React.JSX.Element  {
-  const { popup, handleOpenPopup, handleClosePopup, cards } = props;
+  const { popup, handleOpenPopup, handleClosePopup, cards, handleCardLike, handleCardDelete } = props;
   const { currentUser } = useContext(CurrentUserContext);
 
   const newCardPopup: PopupConfig = {
@@ -30,6 +32,7 @@ export default function Main(props: MainProps): React.JSX.Element  {
   };
 
   const editAvatarPopup: PopupConfig = {
+    id: 'avatar-popup',
     title: 'Editar avatar',
     children: <EditAvatar />,
   };
@@ -65,13 +68,14 @@ export default function Main(props: MainProps): React.JSX.Element  {
         <section className="cards page__section">
           <ul className="cards__list">
                {cards.map((card) => (
-                 <Card key={card._id} card={card} handleOpenPopup={handleOpenPopup} />
+                 <Card key={card._id} card={card} handleOpenPopup={handleOpenPopup} handleCardLike={handleCardLike} handleCardDelete={handleCardDelete} />
                  ))}
           </ul>
         </section>
          {popup && (
         <Popup 
           onClose={handleClosePopup} 
+          id={popup.id}
           title={popup.title}
           isOpen={popup !== null}
         >
