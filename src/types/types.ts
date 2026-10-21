@@ -24,3 +24,7 @@ export interface CardData {
   isLiked: boolean;
 }
 
+export interface CurrentUserContextType {
+  currentUser: UserData | null;
+}
+
