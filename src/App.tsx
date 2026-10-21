@@ -53,9 +53,19 @@ function App() {
     console.error(error);
   }
 };
+
+const handleUpdateUser = async (data: Pick<UserData, 'name' | 'about'> ) => {
+ try{
+  const updatedUser = await api.updateUserInfo(data);
+  setCurrentUser(updatedUser);
+  handleClosePopup();
+ } catch (error) {
+   console.error(error);
+ }
+};
   
   return (
-  <CurrentUserContext.Provider value={{ currentUser, /* pasaremos funciones aquí después */ }}>
+  <CurrentUserContext.Provider value={{ currentUser, handleUpdateUser}}>
    <div className="page__content">
      <Header />
      <Main 

@@ -27,5 +27,6 @@ export interface CardData {
 
 export interface CurrentUserContextType {
   currentUser: UserData | null;
+  handleUpdateUser: (data: Pick<UserData, 'name' | 'about'>)=> Promise<void>;
 }
 

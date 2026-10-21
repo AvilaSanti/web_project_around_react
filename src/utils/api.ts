@@ -32,11 +32,11 @@ export class Api {
     return this._checkResponse<CardData[]>(res);
   }
 
-  async setUserInfo(name: string, about: string): Promise<UserData> {
+  async updateUserInfo(data: Pick<UserData, 'name' | 'about'>): Promise<UserData> {
     const res = await fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
       headers: this._headers,
-      body: JSON.stringify({ name, about })
+      body: JSON.stringify({ name: data.name, about: data.about })
     });
     return this._checkResponse<UserData>(res);
   }
