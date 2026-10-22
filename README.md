@@ -4,11 +4,11 @@
 
 ¡Bienvenido a la fase completa de la migración de **Alrededor de los EE.UU.** a React! En este sprint, consolidamos la arquitectura del proyecto transformando los datos estáticos de desarrollo en una aplicación completamente dinámica conectada a una **API en vivo**, implementando una gestión de estado global eficiente y aplicando flujos de trabajo avanzados para formularios e interactividad.
 
-El proyecto está construido utilizando **Vite** como empaquetador moderno, garantizando un entorno de desarrollo ultra rápido gracias a HMR (Hot Module Replacement).
+El proyecto está construido utilizando **Vite** como empaquetador moderno, garantizando un entorno de desarrollo ultra rápido gracias a HMR (Hot Module Replacement)
 
 ## 🌐 Demo en Vivo
 
-Puedes ver y probar la galería en funcionamiento entrando al siguiente enlace: 👉 [Ver Portafolio en Vivo](https://avilasanti.github.io/web_project_around_react/).
+Puedes ver y probar la galería en funcionamiento entrando al siguiente enlace: 👉 [Ver Portafolio en Vivo](https://avilasanti.github.io/web_project_around_react/)
 
 ---
 
