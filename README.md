@@ -8,7 +8,7 @@ El proyecto está construido utilizando **Vite** como empaquetador moderno, gara
 
 ## 🌐 Demo en Vivo
 
-Puedes ver y probar la galería en funcionamiento entrando al siguiente enlace: 👉 [Ver Portafolio en Vivo](https://avilasanti.github.io/web_project_around_react/)
+Puedes ver y probar la galería en funcionamiento entrando al siguiente enlace: 👉 [Ver Portafolio en Vivo](https://avilasanti.github.io/web_project_around_react/).
 
 ---
 
