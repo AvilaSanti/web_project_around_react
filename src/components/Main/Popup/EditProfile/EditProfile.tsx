@@ -5,6 +5,8 @@ export default function EditProfile(): React.JSX.Element {
   const { currentUser, handleUpdateUser } = useContext(CurrentUserContext);
   const [name, setName] = useState(currentUser?.name || ''); 
   const [description, setDescription] = useState(currentUser?.about || '');
+  const [nameError, setNameError] = useState('');
+  const [descriptionError, setDescriptionError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
@@ -15,12 +17,22 @@ export default function EditProfile(): React.JSX.Element {
     }
     );
   };
+
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    setValue: (value: string) => void,
+    setError: (error: string) => void
+  ) => {
+    const input = event.target;
+     setValue(input.value);
+     setError(input.validity.valid ? '' : input.validationMessage);
+  }
   
   return ( 
 <form className="popup__form" id="edit-profile-form" onSubmit={handleSubmit}>
             <input
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => handleChange(e, setName, setNameError)}
               className="popup__input popup__input_type_name"
               name="name"
               id="name"
@@ -30,10 +42,10 @@ export default function EditProfile(): React.JSX.Element {
               minLength={2}
               maxLength={40}
             />
-            <span className="name-input-error popup__input-error"></span>
+            <span className={`name-input-error popup__input-error ${nameError ? 'popup__input-error_active' : ''}`}>{nameError}</span>
             <input
               value={description }
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => handleChange(e, setDescription, setDescriptionError)}
               className="popup__input popup__input_type_description"
               name="description"
               id="description"
@@ -43,8 +55,8 @@ export default function EditProfile(): React.JSX.Element {
               minLength={2}
               maxLength={200}
             />
-            <span className="description-input-error popup__input-error"></span>
-            <button className="button popup__button" type="submit" disabled={isLoading}>
+            <span className={`description-input-error popup__input-error ${descriptionError ? 'popup__input-error_active' : ''}`}>{descriptionError}</span>
+            <button className="button popup__button" type="submit" disabled={isLoading || !!nameError || !!descriptionError}>
               {isLoading ? 'Guardando...' : 'Guardar'}
             </button>
           </form>
