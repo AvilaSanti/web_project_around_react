@@ -73,9 +73,19 @@ const handleUpdateAvatar = async (avatarUrl: string) => {
     console.error(error);
   }
 };
+
+const handleAddPlaceSubmit = async (name: string, link: string) => {
+  try { 
+    const newCard  = await api.addNewCard(name, link);
+    setCards((state) => [newCard, ...state]);
+    handleClosePopup();
+  } catch (error) {
+    console.error(error);
+  }
+}
   
   return (
-  <CurrentUserContext.Provider value={{ currentUser, handleUpdateUser, handleUpdateAvatar}}>
+  <CurrentUserContext.Provider value={{ currentUser, handleUpdateUser, handleUpdateAvatar, handleAddPlaceSubmit}}>
    <div className="page__content">
      <Header />
      <Main 
