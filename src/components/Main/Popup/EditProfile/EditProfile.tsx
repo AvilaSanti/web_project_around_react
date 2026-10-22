@@ -4,11 +4,16 @@ import CurrentUserContext from '../../../../contexts/CurrentUserContext';
 export default function EditProfile(): React.JSX.Element {
   const { currentUser, handleUpdateUser } = useContext(CurrentUserContext);
   const [name, setName] = useState(currentUser?.name || ''); 
-  const [description, setDescription] = useState(currentUser?.about || ''); 
+  const [description, setDescription] = useState(currentUser?.about || '');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleUpdateUser({ name, about: description });
+    setIsLoading(true);
+    handleUpdateUser({ name, about: description }).finally(() => {
+      setIsLoading(false);
+    }
+    );
   };
   
   return ( 
@@ -39,8 +44,8 @@ export default function EditProfile(): React.JSX.Element {
               maxLength={200}
             />
             <span className="description-input-error popup__input-error"></span>
-            <button className="button popup__button" type="submit">
-              Guardar
+            <button className="button popup__button" type="submit" disabled={isLoading}>
+              {isLoading ? 'Guardando...' : 'Guardar'}
             </button>
           </form>
   );

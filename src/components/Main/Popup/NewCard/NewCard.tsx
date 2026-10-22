@@ -5,9 +5,13 @@ export default function NewCard() {
   const { handleAddPlaceSubmit } = useContext(CurrentUserContext);
   const [name, setName] = useState('');
   const [link, setLink] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleAddPlaceSubmit( name, link );
+    setIsLoading(true);
+    handleAddPlaceSubmit( name, link ).finally(() => {
+      setIsLoading(false);
+    });
   };
 
   return (
@@ -36,10 +40,9 @@ export default function NewCard() {
               type="url"
             />
             <span className="link-input-error popup__input-error"></span>
-            <button className="button popup__button" type="submit">
-              Guardar
+            <button className="button popup__button" type="submit" disabled={isLoading}>
+              {isLoading ? 'Guardando...' : 'Guardar'}
             </button>
           </form>
   );
 }
-    
