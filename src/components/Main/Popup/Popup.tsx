@@ -1,3 +1,5 @@
+import React, { useEffect } from 'react';
+
 type PopupProps = {
   title?: string;
   children: React.ReactNode;
@@ -7,11 +9,31 @@ type PopupProps = {
 };
 
 export default function Popup(props: PopupProps): React.JSX.Element {
+ const {title, children, isOpen, onClose, id} = props;
+ 
+ useEffect(() => {
+  function handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      onClose();
+    }
+  }
 
-  const {title, children, isOpen, onClose, id} = props;
+  document.addEventListener('keydown', handleKeyDown);
+
+  return () => {
+    document.removeEventListener('keydown', handleKeyDown);
+  };
+}, [isOpen, onClose]);
+
   return (
-     <div id={id} className={`popup ${isOpen ? 'popup_is-opened' : ''}`}>
-        <div className={`popup__content ${!title ? 'popup__content_content_image' : ''}`}>
+    <div id={id} className={`popup ${isOpen ? 'popup_is-opened' : ''}`}
+       onClick={(event) => {
+       if (event.target === event.currentTarget) {
+       onClose();
+       }
+       }}
+     >
+     <div className={`popup__content ${!title ? 'popup__content_content_image' : ''}`}>
           <button
             aria-label='Close popup'
             className="popup__close"
@@ -21,6 +43,6 @@ export default function Popup(props: PopupProps): React.JSX.Element {
           {title && <h3 className='popup__title'>{title}</h3>}
             {children}
         </div>
-      </div>
+    </div>
   );
 }
