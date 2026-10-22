@@ -55,17 +55,27 @@ function App() {
 };
 
 const handleUpdateUser = async (data: Pick<UserData, 'name' | 'about'> ) => {
- try{
-  const updatedUser = await api.updateUserInfo(data);
-  setCurrentUser(updatedUser);
-  handleClosePopup();
- } catch (error) {
+  try{
+   const updatedUser = await api.updateUserInfo(data);
+   setCurrentUser(updatedUser);
+   handleClosePopup();
+  } catch (error) {
    console.error(error);
  }
 };
+
+const handleUpdateAvatar = async (avatarUrl: string) => {
+  try{
+    const updateAvatar = await api.updateAvatar(avatarUrl);
+    setCurrentUser(updateAvatar);
+    handleClosePopup();
+  } catch (error) {
+    console.error(error);
+  }
+};
   
   return (
-  <CurrentUserContext.Provider value={{ currentUser, handleUpdateUser}}>
+  <CurrentUserContext.Provider value={{ currentUser, handleUpdateUser, handleUpdateAvatar}}>
    <div className="page__content">
      <Header />
      <Main 
@@ -81,6 +91,6 @@ const handleUpdateUser = async (data: Pick<UserData, 'name' | 'about'> ) => {
   </CurrentUserContext.Provider>
     
   )
-}
+};
 
 export default App
