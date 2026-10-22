@@ -2,7 +2,7 @@
 
 ## Descripción
 
-¡Bienvenido a la primera fase de la migración de **Alrededor de los EE.UU.** a React! En este sprint, transformamos la arquitectura del proyecto original basada en Programación Orientada a Objetos (POO) y manipulación directa del DOM en un paradigma declarativo basado en componentes reutilizables.
+¡Bienvenido a la fase completa de la migración de **Alrededor de los EE.UU.** a React! En este sprint, consolidamos la arquitectura del proyecto transformando los datos estáticos de desarrollo en una aplicación completamente dinámica conectada a una **API en vivo**, implementando una gestión de estado global eficiente y aplicando flujos de trabajo avanzados para formularios e interactividad.
 
 El proyecto está construido utilizando **Vite** como empaquetador moderno, garantizando un entorno de desarrollo ultra rápido gracias a HMR (Hot Module Replacement).
 
@@ -14,7 +14,8 @@ Puedes ver y probar la galería en funcionamiento entrando al siguiente enlace: 
 
 ## Tecnologías y Herramientas Utilizadas
 
-- **React 19** & **TypeScript** para un desarrollo seguro y basado en tipado robusto.
+- **React 19** & **TypeScript** para un desarrollo seguro y basado en tipado estricto y robusto.
+- **Context API** de React para la gestión del estado global.
 - **Vite** como entorno de desarrollo y bundler.
 - **ESLint** para asegurar la calidad del código (configurado para omitir restricciones de `prop-types` ya que usamos TypeScript).
 - **CSS BEM (Block Element Modifier)** para la consistencia de los estilos globales heredados.
@@ -23,25 +24,33 @@ Puedes ver y probar la galería en funcionamiento entrando al siguiente enlace: 
 
 ## Características Implementadas
 
-Se ha modularizado la aplicación dividiendo el marcado antiguo en componentes funcionales e interactivos:
+Se ha modularizado la aplicación dividiendo el marcado antiguo en componentes funcionales e interactivos, añadiendo lógica de servidor:
 
 1. **Componentes de Maquetación Reutilizables:**
    - `Header`: Módulo separado que incluye el logotipo oficial de la aplicación.
-   - `Main`: Componente contenedor principal de la sección de perfil y la cuadrícula de tarjetas.
+   - `Main`: Componente contenedor principal de la sección de perfil y la cuadrícula de tarjetas, ahora alimentado dinámicamente.
    - `Footer`: Pie de página independiente.
 
-2. **Arquitectura de Popups Dinámicos (Estado Controlado):**
-   - Creación de un componente base `Popup` con soporte dinámico para la clase CSS `popup_is-opened` mediante la propiedad booleana `isOpen`.
-   - Implementación del hook `useState` en el componente `Main` para gestionar centralizadamente qué ventana emergente se renderiza (`EditProfile`, `EditAvatar`, `NewCard`, e `ImagePopup`).
-   - Comunicación bidireccional mediante propiedades (`props`) y funciones controladoras como `handleOpenPopup` y `handleClosePopup`.
+2. **Arquitectura de Popups Dinámicos y Estado Centralizado:**
+   - El componente `App` actúa como el **"cerebro"** de la aplicación, controlando centralizadamente los estados de los popups (`popup`, `setPopup`) para permitir cierres automáticos tras respuestas exitosas del servidor.
+   - Comunicación bidireccional limpia mediante propiedades (`props`) y funciones controladoras como `handleOpenPopup` y `handleClosePopup`.
 
-3. **Componente Card y Renderizado de Listas:**
-   - Tipado dinámico reutilizando la interfaz `CardData` en un archivo de tipos global (`src/types/types.ts`).
-   - Uso del método `.map()` de JavaScript para iterar datos ficticios de desarrollo y renderizarlos en una lista limpia dentro de un elemento `<ul>`.
+3. **Contexto Global (`CurrentUserContext`):**
+   - Implementación de la **Context API** para compartir los datos del usuario conectado (`currentUser`) y sus funciones de actualización a lo largo de toda la aplicación sin pasar propiedades manualmente a través de múltiples niveles de componentes.
 
-4. **Ventana Emergente de Imágenes (`ImagePopup`):**
-   - Modificación del contenido del contenedor adaptando estilos específicos de imagen a través de operadores ternarios en el componente `Popup` base.
-   - Apertura del popup al hacer clic directamente sobre cualquier imagen de las tarjetas.
+4. **Integración Completa con la API e Inmutabilidad:**
+   - **Carga Inicial Asíncrona:** Uso de `Promise.all` y `useEffect` para resolver en paralelo la información del perfil y el listado de tarjetas iniciales del servidor.
+   - **Gestión Declarativa de Tarjetas:** Lógica de _Likes_ interactivos utilizando `.map()` para actualizar únicamente la tarjeta mutada, y eliminación de tarjetas mediante `.filter()` para reconstruir el estado sin alterar el arreglo original.
+   - **Renderizado Dinámico:** Inserción cronológica inmediata de nuevas tarjetas al principio del contenedor utilizando el operador _spread_ (`[newCard, ...state]`).
+
+5. **Manejo Avanzado de Formularios (Controlados y No Controlados):**
+   - **Componentes Controlados (`EditProfile` y `NewCard`):** Sincronización absoluta de los inputs de texto con el estado local (`useState`), inicializados de forma segura para prevenir errores de renderizado.
+   - **Componentes No Controlados (`EditAvatar`):** Implementación del hook `useRef` para leer el valor final directamente del DOM al enviar el formulario, optimizando los ciclos de renderizado.
+
+6. **Experiencia de Usuario Profesional (UX) - _Opcional Añadido_:**
+   - **Indicadores de Carga (_Loading States_):** Mutación visual dinámica en los botones de envío (ej. _"Guardando..."_, _"Creando..."_) mientras se resuelven las peticiones HTTP.
+   - **Validación en Tiempo Real:** Deshabilitación de botones e inyección de clases bloqueantes si los campos no cumplen con los requisitos mínimos de caracteres o formatos URL.
+   - **Popup de Confirmación:** Flujo intermedio de seguridad para almacenar temporalmente una tarjeta (`cardToDelete`) y requerir validación explita del usuario antes de ejecutar la eliminación definitiva.
 
 ---
 
@@ -69,19 +78,23 @@ src/
 │   │   └── Main.tsx
 │   ├── Popup/
 │   │   ├── EditAvatar/
+│   │   │   └── EditAvatar.tsx
 │   │   ├── EditProfile/
+│   │   │   └── EditProfile.tsx
 │   │   ├── NewCard/
 │   │   │   └── NewCard.tsx
 │   │   └── Popup.tsx
 │   └── Footer/
 │       └── Footer.tsx
+├── contexts/
+│   └── CurrentUserContext.tsx
 ├── images/
 │   └── (Imágenes, avatares y logos del proyecto)
 ├── types/
 │   └── types.ts
+├── utils/
+│   └── api.ts
 ├── App.tsx
 ├── index.css
 └── main.tsx
 ```
-
----
