@@ -44,13 +44,13 @@ Se ha modularizado la aplicación dividiendo el marcado antiguo en componentes f
    - **Renderizado Dinámico:** Inserción cronológica inmediata de nuevas tarjetas al principio del contenedor utilizando el operador _spread_ (`[newCard, ...state]`).
 
 5. **Manejo Avanzado de Formularios (Controlados y No Controlados):**
-   - **Componentes Controlados (`EditProfile` y `NewCard`):** Sincronización absoluta de los inputs de texto con el estado local (`useState`), inicializados de forma segura para prevenir errores de renderizado.
-   - **Componentes No Controlados (`EditAvatar`):** Implementación del hook `useRef` para leer el valor final directamente del DOM al enviar el formulario, optimizando los ciclos de renderizado.
+   - **Componentes Controlados (`EditProfile` e `NewCard`):** Sincronización absoluta de los inputs de texto con el estado local (`useState`), inicializados de forma segura para prevenir errores de renderizado.
+   - **Componentes No Controlados (`EditAvatar`):** Implementación rigurosa del hook `useRef` para capturar directamente el valor del enlace del avatar del DOM en el evento `submit`, evitando renders innecesarios. Integra control de flujo asíncrono mediante promesas (`.finally()`) para gestionar el botón y validaciones nativas de URL mediante manejadores reactivos.
 
 6. **Experiencia de Usuario Profesional (UX) - _Opcional Añadido_:**
    - **Indicadores de Carga (_Loading States_):** Mutación visual dinámica en los botones de envío (ej. _"Guardando..."_, _"Creando..."_) mientras se resuelven las peticiones HTTP.
    - **Validación en Tiempo Real:** Deshabilitación de botones e inyección de clases bloqueantes si los campos no cumplen con los requisitos mínimos de caracteres o formatos URL.
-   - **Popup de Confirmación:** Flujo intermedio de seguridad para almacenar temporalmente una tarjeta (`cardToDelete`) y requerir validación explita del usuario antes de ejecutar la eliminación definitiva.
+   - **Popup de Confirmación:** Flujo intermedio de seguridad para almacenar temporalmente una tarjeta (`cardToDelete`) y requerir validación explícita del usuario antes de ejecutar la eliminación definitiva.
 
 ---
 
